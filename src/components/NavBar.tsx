@@ -1,29 +1,57 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Menu from "./Menu";
+import Switch from "./ToggleMode";
+import { itensMenu } from "../itensMenu/ItensMenu";
 
-function NavBar(){
-    const [menuAberto, setMenuAberto] = useState(false);
+function NavBar() {
+  const [menuAberto, setMenuAberto] = useState(false);
+  const [dark, setDark] = useState(true);
 
-    
-    return(
-        <nav className="grid grid-cols-2 z-78 justify-between items-center px-15 py-4">
-            <img src="/logoNome.svg" alt="Logo manuella" />
+  useEffect(() => {
+    const root = document.documentElement; 
+    if (dark) {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+  }, [dark]);
 
-            <button className="text-white text-2xl md:hidden absolute right-5 hover:text-[#A489D1]"
-        onClick={() => setMenuAberto(!menuAberto)}>☰</button>
+    const toggleDarkMode = () => {
+        setDark(!dark);
+    }
 
-            <ul className="justify-end hidden md:flex">
-            <div className="flex justify-between xl:w-3/5 w-full">
-                <li className="transition delay-150 duration-100 ease-in-out  hover:scale-110"><a href="#home" className="font-medium text-lg text-[#DDD3EE] hover:text-[#A489D1] ">Home</a></li>
-                <li className="transition delay-150 duration-100 ease-in-out  hover:scale-110"><a href="#about" className="font-medium text-lg text-[#DDD3EE] hover:text-[#A489D1]">Sobre</a></li>
-                <li className="transition delay-150 duration-100 ease-in-out  hover:scale-110"><a href="#about" className="font-medium text-lg text-[#DDD3EE] hover:text-[#A489D1]">Skills</a></li>
-                <li className="transition delay-150 duration-100 ease-in-out  hover:scale-110"><a href="#about" className="font-medium text-lg text-[#DDD3EE] hover:text-[#A489D1]">Projetos</a></li>
-                <li className="transition delay-150 duration-100 ease-in-out  hover:scale-110"><a href="#contact" className="font-medium text-lg text-[#DDD3EE] hover:text-[#A489D1]">Contato</a></li>
-                </div>
-            </ul>
-            {menuAberto && <Menu fecharMenu={() => setMenuAberto(false)}/>}
-            
-        </nav>
-    )
+  return (
+  
+    <nav className="flex justify-between items-center md:px-14 px-4 py-4 relative z-50 bg-[#f1e5ff]  dark:bg-[#120C1C]">
+      
+      <img src="/logoNome.svg" alt="Logo manuella" className="sm:w-60 w-50"/>
+      <div className="flex items-center gap-4 justify-center">
+        
+        <ul className="hidden md:flex md:gap-5 lg:gap-10 text-white">
+          {itensMenu.map((item) => (
+            <li key={item.id} className="transition hover:scale-110">
+              <a href={item.link} className="text-lg dark:text-[#DDD3EE] hover:text-[#6f5a92] dark:hover:text-[#A489D1] text-[#371175] font-medium">
+                {item.nome}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <Switch toggleHandDark={toggleDarkMode} isDark={dark}/>
+         
+        <button
+          className="dark:text-white text-2xl md:hidden dark:hover:text-[#A489D1] text-[#40108d] hover:text-[#6f5a92] transition delay-150 duration-100 ease-in-out "
+          onClick={() => setMenuAberto(!menuAberto)}
+        >
+          ☰
+        </button>
+
+      </div>
+      {menuAberto && (
+        <Menu fecharMenu={() => setMenuAberto(false)} />
+      )}
+
+    </nav>
+  );
 }
 export default NavBar;
