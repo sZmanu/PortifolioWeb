@@ -1,10 +1,11 @@
 import React from 'react';
 
 interface ButtonProps {
-  title: string;
+  title?: string;
   onClick?: () => void;
+  children?: React.ReactNode;
 }
-const Button = ({ title, onClick }: ButtonProps) => {
+const Button = ({ title, onClick, children }: ButtonProps) => {
   return (
     <button 
       className="relative inline-flex h-12 active:scale-95 transistion overflow-hidden rounded-lg p-[1px] focus:outline-none "
@@ -15,6 +16,7 @@ const Button = ({ title, onClick }: ButtonProps) => {
       {/* cor fundo */}
       <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-lg bg-[#231736] px-7 text-[12px] md:text-[15px] font-medium text-white backdrop-blur-3xl gap-2 undefined hover:bg-[#573178]">
         {title}
+        {children}
       </span>
     </button>
   );

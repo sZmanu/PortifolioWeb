@@ -2,4 +2,32 @@
   padding: 0;
   margin: 0;
   font-family: "Poppins", sans-serif;
+
+  --color-bg-dark: #120C1C;
+
+  --color-bg-ligth: #f1e5ff;
+
+  --color-secondary: #A489D1;
+  --color-primary: #7045b1;
+  --color-tertiary: #573178;
+  --color-quaternary: #351a5f;
+  --color-text-light: #c5aee0;
+  --color-text-dark: #300e68;
+  --color-text-secondary: #6b7280;
+
+  --color-card-glow: rgba(169, 85, 247, 0.20);
+
+  --color-border: #e5e7eb28;
+}
+.dark {
+  --color-card-glow: rgba(80, 57, 121, 0.2);
+}
+
+h3{
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+h4{
+  font-size: 1rem;
+  font-weight: 500;
 }
