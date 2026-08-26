@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
-import { CardProject } from "../components/CardProject";
+import { CardProject, type Project } from "../components/CardProject";
 import { ArrowLeftIcon } from "../components/icons/ArrowLeftIcon";
 import { ArrowRightIcon } from "../components/icons/ArrowRightIcon";
 import { getProjectsData } from "../utils/ProjectsData";
+import ModalCard from "../components/ModalCard";
 
 function getCardsPerView(): number {
     if (typeof window === "undefined") return 3;
@@ -39,6 +40,7 @@ function useCardsPerView(): number {
 }
 
 export default function ProjectsSlider() {
+    const [projetoSelecionado, setProjetoSelecionado] = useState<Project | null>(null);
     const projects = getProjectsData();
     const cardsPerView = useCardsPerView();
     const [index, setIndex] = useState<number>(0);
@@ -55,6 +57,19 @@ export default function ProjectsSlider() {
     const handlePrev = useCallback(() => {
         setIndex((prev) => Math.max(prev - 1, 0));
     }, []);
+
+    const handleCloseModal = useCallback(() => {
+        setProjetoSelecionado(null);
+    }, []);
+
+    useEffect(() => {
+        const handleEscape = (event: KeyboardEvent) => {
+            if (event.key === "Escape") handleCloseModal();
+        };
+
+        window.addEventListener("keydown", handleEscape);
+        return () => window.removeEventListener("keydown", handleEscape);
+    }, [handleCloseModal]);
 
     const cardWidthPercent = 100 / cardsPerView;
     const isAtStart = index === 0;
@@ -80,7 +95,7 @@ export default function ProjectsSlider() {
             className="box-border shrink-0 px-1 sm:px-5"
             style={{ width: `${cardWidthPercent}%` }}
         >
-            <CardProject project={project} />
+            <CardProject project={project} onSelect={setProjetoSelecionado} />
         </div>
     ))}
 </div>
@@ -95,6 +110,12 @@ export default function ProjectsSlider() {
                     <ArrowRightIcon className="h-4 w-4 sm:h-5 sm:w-5" />
                 </button>
             </div>
+
+            <ModalCard
+                isOpen={projetoSelecionado !== null}
+                project={projetoSelecionado}
+                onClose={handleCloseModal}
+            />
         </section>
     );
 }

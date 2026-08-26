@@ -9,9 +9,12 @@ export type Project = {
     technologies: string[];
 };
 
-type CardProjectProps = { project: Project };
+type CardProjectProps = {
+    project: Project;
+    onSelect: (project: Project) => void;
+};
 
-export function CardProject({ project }: CardProjectProps) {
+export function CardProject({ project, onSelect }: CardProjectProps) {
     const updateGlowPosition = (event: MouseEvent<HTMLDivElement>) => {
         const { currentTarget, clientX, clientY } = event;
         const rect = currentTarget.getBoundingClientRect();
@@ -21,7 +24,7 @@ export function CardProject({ project }: CardProjectProps) {
     };
 
     return (
-        <article className="group h-full overflow-hidden rounded-lg bg-white  shadow-xl/20 transition-all duration-500 ease-out hover:-translate-y-1 hover:scale-[1.03]">
+        <article className="group h-full overflow-hidden rounded-lg bg-white shadow-xl/20 transition-all duration-500 ease-out hover:-translate-y-1 hover:scale-[1.03]">
             <img src={project.image} alt={project.title} className="h-50 w-full object-cover" />
 
             <div className="relative overflow-hidden p-6" onMouseMove={updateGlowPosition}>
@@ -41,9 +44,9 @@ export function CardProject({ project }: CardProjectProps) {
                         ))}
                     </div>
 
-                    <a href={project.link} target="_blank" rel="noopener noreferrer" aria-label={`Abrir projeto ${project.title}`} className="z-10 mt-4 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--color-secondary)] text-[var(--color-secondary)] opacity-75 transition-colors hover:bg-[var(--color-text-light)] sm:h-12 sm:w-12">
+                    <button type="button" onClick={() => onSelect(project)} aria-label={`Ver detalhes do projeto ${project.title}`} className="z-10 mt-4 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--color-secondary)] text-[var(--color-secondary)] opacity-75 transition-colors hover:bg-[var(--color-text-light)] sm:h-12 sm:w-12">
                         <ArrowRightIcon className="h-5 w-5" />
-                    </a>
+                    </button>
                 </div>
             </div>
         </article>
