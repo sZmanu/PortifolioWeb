@@ -4,6 +4,7 @@ import { ArrowLeftIcon } from "../components/icons/ArrowLeftIcon";
 import { ArrowRightIcon } from "../components/icons/ArrowRightIcon";
 import { getProjectsData } from "../utils/ProjectsData";
 import ModalCard from "../components/ModalCard";
+import Background2 from "../components/Background2";
 
 function getCardsPerView(): number {
     if (typeof window === "undefined") return 3;
@@ -76,7 +77,10 @@ export default function ProjectsSlider() {
     const isAtEnd = index === maxIndex;
 
     return (
-        <section className="min-h-svh flex items-center justify-center bg-[#E2D2F3FF] px-2 py-10 dark:bg-[#231736] sm:px-4">
+        <Background2>
+        <section className="min-h-svh flex items-center justify-center flex-col px-2 py-10 sm:px-4">
+            <h2 className="text-white lg:text-4xl font-semibold mb-5">PROJETOS</h2>
+            
             <div className="relative flex w-full max-w-6xl items-center gap-1 sm:gap-4 min-[1800px]:max-w-[1728px]">
                 <button
                     onClick={handlePrev}
@@ -100,7 +104,6 @@ export default function ProjectsSlider() {
     ))}
 </div>
                 </div>
-
                 <button
                     onClick={handleNext}
                     disabled={isAtEnd}
@@ -117,5 +120,6 @@ export default function ProjectsSlider() {
                 onClose={handleCloseModal}
             />
         </section>
+        </Background2>
     );
 }
