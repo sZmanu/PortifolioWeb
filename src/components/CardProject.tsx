@@ -1,10 +1,12 @@
 import type { MouseEvent } from "react";
 import { ArrowRightIcon } from "./icons/ArrowRightIcon";
+import BadgeTecnologia from "./BadgeTecnologia";
 
 export type Project = {
     title: string;
     description: string;
     image: string;
+    video?: string;
     link: string;
     technologies: string[];
 };
@@ -24,8 +26,8 @@ export function CardProject({ project, onSelect }: CardProjectProps) {
     };
 
     return (
-        <article className="group h-full overflow-hidden rounded-lg bg-white shadow-xl/20 transition-all duration-500 ease-out hover:-translate-y-1 hover:scale-[1.03]">
-            <img src={project.image} alt={project.title} className="h-50 w-full object-cover" />
+        <article className="group h-full overflow-hidden dark:bg-[#271A3C] bg-[#ffffff]  rounded-lg shadow-xl transition-all duration-500 ease-out hover:-translate-y-1 hover:scale-[1.03]">
+            <img src={project.image} alt={project.title} className="h-40 w-full object-cover" />
 
             <div className="relative overflow-hidden p-6" onMouseMove={updateGlowPosition}>
                 <div
@@ -35,18 +37,26 @@ export function CardProject({ project, onSelect }: CardProjectProps) {
                 />
 
                 <div className="relative">
-                    <h5 className="mb-2 text-lg font-semibold dark:text-[var(--color-bg-ligth)]">{project.title}</h5>
-                    <p className="card-text">{project.description}</p>
+                    <h5 className="mb-2 sm:text-lg text-[14px] text-[var(--color-bg-dark)] font-semibold dark:text-[var(--color-bg-ligth)]">{project.title}</h5>
+                    <p className="card-text line-clamp-3 md:text-[15px] text-[#2E2E2E] dark:text-[#D9D9D9] text-[11px]">
+                        {project.description}
+                    </p>
 
                     <div className="mt-4 flex flex-wrap gap-2">
                         {project.technologies.map((technology, index) => (
-                            <img key={technology} src={technology} alt={`Tecnologia ${index + 1}`} className="h-6 w-6 sm:h-8 sm:w-8" />
+                            <img key={technology} src={technology} alt={`Tecnologia ${index + 1}`} className="h-4 w-4 sm:h-5 sm:w-5 lg:w-7 lg:h-7" />
                         ))}
                     </div>
-
-                    <button type="button" onClick={() => onSelect(project)} aria-label={`Ver detalhes do projeto ${project.title}`} className="z-10 mt-4 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--color-secondary)] text-[var(--color-secondary)] opacity-75 transition-colors hover:bg-[var(--color-text-light)] sm:h-12 sm:w-12">
-                        <ArrowRightIcon className="h-5 w-5" />
-                    </button>
+                    {/* <div className="mt-4 flex flex-wrap gap-2">
+                        {project.technologies.map((technology, index) => (
+                            <BadgeTecnologia key={technology} title="technology"/>
+                        ))}
+                    </div> */}
+                    <div className="w-full flex justify-end"> 
+                        <button type="button" onClick={() => onSelect(project)} aria-label={`Ver detalhes do projeto ${project.title}`} className="z-10 mt-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[var(--color-secondary)] dark:text-[#ffffff] opacity-75 transition-colors dark:hover:bg-[var(--color-text-light)] hover:text-white hover:bg-[#271A3C] sm:h-9 sm:w-9 lg:h-12 lg:w-12">
+                            <ArrowRightIcon className="h-3 w-3 lg:h-5 lg:w-5" />
+                        </button>
+                    </div>
                 </div>
             </div>
         </article>
