@@ -1,13 +1,15 @@
 import Background from "../components/Background";
 import Background2 from "../components/Background2";
 import EducationSection from "../components/CardEducatio";
+import TrajectorySection from "../components/TrajectorySection";
 
 function Education() {
   return (
     
       <section id="education" className=" dark:bg-[var(--color-bg-dark)] bg-[var(--color-bg-ligth)] flex justify-center flex-col">
-        <h2>Educação</h2>
-       <EducationSection/>
+       <div data-scroll-reveal>
+        <TrajectorySection/>
+       </div>
       </section>
       
     
