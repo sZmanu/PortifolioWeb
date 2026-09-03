@@ -1,47 +1,176 @@
+import { useState } from "react";
 import ButtonCode from "./ButtonCode";
 import type { Project } from "./CardProject";
 
 interface ModalCardProps {
-    isOpen: boolean;
-    onClose: () => void;
-    project: Project | null;
+  isOpen: boolean;
+  onClose: () => void;
+  project: Project | null;
 }
-function ModalCard({ isOpen, onClose, project }: ModalCardProps) {
-    if (!isOpen || !project) return null;
 
-    return (
-        <div className="fixed inset-0 z-50 flex items-center  justify-center bg-black/50 p-4" role="presentation" onClick={onClose}>
-            <div className="relative max-h-[calc(100svh-2rem)] m-10 w-full max-w-4xl overflow-y-auto overscroll-contain rounded-lg bg-white p-6 shadow-xl dark:bg-[var(--color-bg-dark)]" role="dialog" aria-modal="true" aria-labelledby="modal-project-title" onClick={(event) => event.stopPropagation()}>
-                <button type="button" onClick={onClose} aria-label="Fechar modal" className="absolute right-4 top-3 text-2xl text-gray-600 hover:text-gray-900">
-                    ×
-                </button>
-                
-                <h2 id="modal-project-title" className="mb-2 md:text-2xl text-lg font-semibold text-[var(--color-bg-dark)] dark:text-[var(--color-bg-ligth)]">{project.title}</h2>
-                {project.video && (
-                    <video
-                        controls
-                        preload="metadata"
-                        className="mb-4 w-full rounded-lg"
-                    >
-                        <source src={project.video} type="video/mp4" />
-                        Seu navegador não suporta a reprodução de vídeo.
-                    </video>
-                )}
-                    <div className=" rounded-lg p-4 dark:bg-[#f1e5ff0e] mt-13 bg-[#f1e5ff80]">
-                <p className="md:text-[16px] lg:text-[16px] text-[#696969] text-[11px] dark:text-[#c6c6c6]">{project.description}</p>
-                </div>
-                <h2 className="dark:text-white text-[var(--color-bg-dark)] font-semibold mt-5 text-[12px] lg:text-xl md:text-[17px]">Tecnologias:</h2>
-                <div className="mt-4 flex flex-wrap gap-2">
-                        {project.technologies.map((technology, index) => (
-                            <img key={technology} src={technology} alt={`Tecnologia ${index + 1}`} className="h-6 w-6 sm:h-8 sm:w-8 transition-transform duration-500 ease-in-out hover:-translate-y-2 " />
-                        ))}
-                    </div>
-                    <div className="w-full flex justify-end">
-                        <ButtonCode/>
-                    </div>
-                    
+type MediaItem =
+  | { type: "video"; src: string }
+  | { type: "image"; src: string };
+
+function ModalCard({ isOpen, onClose, project }: ModalCardProps) {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  if (!isOpen || !project) return null;
+
+  // Monta a lista de mídia: vídeo primeiro (se existir), depois as fotos
+const mediaItems: MediaItem[] = [
+  ...(project.video ? [{ type: "video" as const, src: project.video }] : []),
+  ...(project.images ?? []).map((src) => ({ type: "image" as const, src })),
+];
+
+  const hasMedia = mediaItems.length > 0;
+  const active = mediaItems[activeIndex];
+
+  const prev = () =>
+    setActiveIndex((i) => (i - 1 + mediaItems.length) % mediaItems.length);
+  const next = () =>
+    setActiveIndex((i) => (i + 1) % mediaItems.length);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
+      role="presentation"
+      onClick={onClose}
+    >
+      <div
+        className="relative m-10 max-h-[calc(100svh-2rem)] w-full max-w-4xl overflow-y-auto overscroll-contain rounded-2xl bg-white p-6 shadow-2xl dark:bg-[var(--color-bg-dark)]"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-project-title"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Botão fechar */}
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Fechar modal"
+          className="absolute right-4 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-black/10 text-xl text-gray-600 transition hover:bg-black/20 hover:text-gray-900 dark:bg-white/10 dark:text-gray-300 dark:hover:bg-white/20"
+        >
+          ×
+        </button>
+
+        {/* Título */}
+        <h2
+          id="modal-project-title"
+          className="mb-4 text-lg font-semibold text-[var(--color-bg-dark)] dark:text-[var(--color-bg-ligth)] md:text-2xl"
+        >
+          {project.title}
+        </h2>
+
+        {/* ── GALERIA ── */}
+        {hasMedia && (
+          <div className="mb-4">
+            {/* Visualizador principal */}
+            <div className="relative flex max-h-[50svh] items-center justify-center overflow-hidden rounded-xl bg-black">
+              {active.type === "video" ? (
+                <video
+                  key={active.src}
+                  controls
+                  preload="metadata"
+                  className="max-h-[50svh] w-full rounded-xl object-contain"
+                >
+                  <source src={active.src} type="video/mp4" />
+                  Seu navegador não suporta a reprodução de vídeo.
+                </video>
+              ) : (
+                <img
+                  key={active.src}
+                  src={active.src}
+                  alt={`Mídia ${activeIndex + 1}`}
+                  className="max-h-[50svh] w-full rounded-xl object-contain"
+                />
+              )}
+
+              {/* Setas de navegação (só aparece se houver mais de 1 item) */}
+              {mediaItems.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={prev}
+                    aria-label="Anterior"
+                    className="absolute left-2 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm transition hover:bg-black/70"
+                  >
+                    ‹
+                  </button>
+                  <button
+                    type="button"
+                    onClick={next}
+                    aria-label="Próximo"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm transition hover:bg-black/70"
+                  >
+                    ›
+                  </button>
+                </>
+              )}
+
+              {/* Contador */}
+              {mediaItems.length > 1 && (
+                <span className="absolute bottom-2 right-3 rounded-full bg-black/50 px-2 py-0.5 text-[11px] text-white backdrop-blur-sm">
+                  {activeIndex + 1} / {mediaItems.length}
+                </span>
+              )}
             </div>
+
+            {/* Tira de thumbnails */}
+            {mediaItems.length > 1 && (
+              <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+                {mediaItems.map((item, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setActiveIndex(i)}
+                    aria-label={`Ver mídia ${i + 1}`}
+                    className={`relative h-16 w-24 flex-shrink-0 overflow-hidden rounded-lg border-2 transition-all duration-200 ${
+                      i === activeIndex
+                        ? "dark:border-[#A489D1] border-purple-500 opacity-100 shadow-[0_0_10px_rgba(168,85,247,0.5)]"
+                        : "border-transparent opacity-50 hover:opacity-80"
+                    }`}
+                  >
+                    {item.type === "video" ? (
+                      <div className="flex h-full w-full items-center justify-center bg-black">
+                        {/* Ícone de play para vídeo */}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-7 w-7 text-white/80"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
+                    ) : (
+                      <img
+                        src={item.src}
+                        alt={`Thumbnail ${i + 1}`}
+                        className="h-full w-full object-cover"
+                      />
+                    )}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Descrição */}
+        <div className="mb-5 mt-2 rounded-lg bg-[#f1e5ff80] p-4 dark:bg-[#f1e5ff0e] mt-15">
+          <p className="text-[11px] text-[#696969] dark:text-[#c6c6c6] md:text-[16px] lg:text-[16px]">
+            {project.description}
+          </p>
         </div>
-    )
+
+        {/* Botão */}
+        <div className="flex w-full justify-end">
+          <ButtonCode />
+        </div>
+      </div>
+    </div>
+  );
 }
+
 export default ModalCard;
