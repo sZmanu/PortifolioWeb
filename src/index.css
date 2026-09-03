@@ -4,6 +4,27 @@
 
 /* ✅ Correto para Tailwind v4 com classe dark no <html> */
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* A animaÃ§Ã£o Ã© aplicada diretamente nas seÃ§Ãµes, sem criar contÃªineres extras. */
+.scroll-reveal-ready [data-scroll-reveal] {
+  opacity: 0;
+  transform: translateY(86px);
+  transition: opacity 1900ms ease-out, transform 2200ms ease-out;
+  will-change: opacity, transform;
+}
+
+.scroll-reveal-ready [data-scroll-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal-ready [data-scroll-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
 /* index.css ou global.css */
 * {
   transition: background-color 0.3s ease, color 0.3s ease;

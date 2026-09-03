@@ -6,9 +6,9 @@ import './home.css'
 function Home(){
     return(
         <>
-        <section id="home" className="h-svh flex items-center justify-center bg-[#f1e5ff] dark:bg-[#120C1C] ">
+        <section id="home" className="h-svh flex items-center justify-center bg-[#f1e5ff] dark:bg-[var(--color-bg-dark)] ">
             {/* <div className="absolute inset-0 min-h-screen bg-[url('/fundoLuzes.svg')] bg-cover bg-center bg-no-repeat "></div> */}
-            <div className="grid md:grid-cols-2 gap-8 w-full items-center justify-center min-[1800px]:gap-14">
+            <div data-scroll-reveal className="grid md:grid-cols-2 gap-8 w-full items-center justify-center min-[1800px]:gap-14">
                 <div className="flex flex-col gap-4 items-center">
 
                     <div className="px-4">

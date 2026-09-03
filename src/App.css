@@ -3,9 +3,11 @@
   margin: 0;
   font-family: "Poppins", sans-serif;
 
-  --color-bg-dark: #120C1C;
+  --color-bg-dark: #090311;
 
   --color-bg-ligth: #f1e5ff;
+  --color-card: #2c253831;
+  --color: #f1e5ff13;
 
   --color-secondary: #A489D1;
   --color-primary: #7045b1;
@@ -20,7 +22,7 @@
   --color-border: #e5e7eb28;
 }
 .dark {
-  --color-card-glow: rgba(135, 110, 179, 0.2);
+  --color-card-glow: #271836;
 }
 
 h3{
