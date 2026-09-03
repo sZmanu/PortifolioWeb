@@ -32,7 +32,7 @@ const StyledWrapper = styled.div`
   }
 
   .dark & .background {
-    background: radial-gradient(125% 125% at 50% 10%, #120C1C 40%, #5e4079 100%);
+    background: radial-gradient(125% 125% at 50% 10%, #090311 40%, #2c1642 100%);
   }
 
   .content {
