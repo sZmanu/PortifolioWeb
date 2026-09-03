@@ -40,6 +40,7 @@ function useCardsPerView(): number {
     return cardsPerView;
 }
 
+
 export default function ProjectsSlider() {
     const [projetoSelecionado, setProjetoSelecionado] = useState<Project | null>(null);
     const projects = getProjectsData();
@@ -79,7 +80,15 @@ export default function ProjectsSlider() {
     return (
         <Background2>
         <section className="min-h-svh flex items-center justify-center flex-col px-2 py-10 sm:px-4">
-            <h2 className="text-white lg:text-4xl font-semibold mb-5">PROJETOS</h2>
+            <div data-scroll-reveal className="flex w-full flex-col items-center">
+            <div className="mb-8 text-center">
+        <h2 className="xl:text-4xl font-black md:text-3xl text-lg text-white">
+          Meus{" "}
+          <span className="bg-[var(--color-secondary)] ml-2 bg-clip-text text-transparent">
+            projetos
+          </span>
+        </h2>
+      </div>
             
             <div className="relative flex w-full max-w-6xl items-center gap-1 sm:gap-4 min-[1800px]:max-w-[1728px]">
                 <button
@@ -114,6 +123,7 @@ export default function ProjectsSlider() {
                 </button>
             </div>
 
+            </div>
             <ModalCard
                 isOpen={projetoSelecionado !== null}
                 project={projetoSelecionado}
