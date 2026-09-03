@@ -21,7 +21,7 @@ function NavBar() {
     }
 
   return (
-    <nav className="flex justify-between items-center md:px-14 px-4 py-4 relative z-50 bg-[#f1e5ff]  dark:bg-[#120C1C] ">
+    <nav className="flex justify-between items-center md:px-14 px-4 py-4 relative z-50 bg-[#f1e5ff]  dark:bg-[var(--color-bg-dark)] ">
 
       <img src="/logoNome.svg" alt="Logo manuella" className="sm:w-60 w-50"/>
       <div className="flex items-center gap-4 justify-center">
