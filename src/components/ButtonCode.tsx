@@ -21,7 +21,7 @@ const StyledWrapper = styled.div`
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
     padding-block: 0.5rem;
     padding-inline: 1.25rem;
-    background-color: #351a5f;
+    background-color: #241242;
     border-radius: 9999px;
     display: flex;
     align-items: center;
