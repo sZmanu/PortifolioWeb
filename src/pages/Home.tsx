@@ -2,6 +2,7 @@ import Button from "../components/Botao";
 import Card from "../components/ImagemPerfil";
 import CardFoto from "../components/CardFoto";
 import './home.css'
+import ButtonSocial from "../components/ButtonSocial";
 
 function Home(){
     return(
@@ -10,14 +11,16 @@ function Home(){
             {/* <div className="absolute inset-0 min-h-screen bg-[url('/fundoLuzes.svg')] bg-cover bg-center bg-no-repeat "></div> */}
             <div data-scroll-reveal className="grid md:grid-cols-2 gap-8 w-full items-center justify-center min-[1800px]:gap-14">
                 <div className="flex flex-col gap-4 items-center">
-
-                    <div className="px-4">
+                    <div className="inline-flex flex-col items-start px-4">
+                        <div className="mb-5">
+                        <ButtonSocial/>
+                        </div>
                         <h1 className="text-2xl md:text-[2rem] lg:text-5xl font-bold dark:text-[#DDD3EE] text-[#300e68] min-[1800px]:text-5xl">Olá, sou a <span className="dark:text-[#A489D1] text-[#7045b1]">Manuella</span></h1>
                         <h2 className="typing-effect mb-4 text-md md:text-[1.3rem] font-semibold dark:text-[#DDD3EE] text-[var(--color-quaternary)] dark:text-[var(--color-text-light)] min-[1800px]:text-[1.6rem]">Desenvolvedora Full Stack</h2>
                     <p className="text-sm md:text-lg dark:text-[#DDD3EE] text-[#300e68] min-[1800px]:text-xl">
                         Desenvolvedora Frontend com paixão <br />por criar experiências digitais incríveis.
                     </p>
-                    <div className="flex gap-4 mt-5">
+                    <div className="mt-5 flex gap-4 self-start">
                      <Button title="Contact me" onClick={() => {}} />
                      <Button><a
                         href="/Manuella-curriculo.pdf"

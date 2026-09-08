@@ -5,6 +5,7 @@ import About from './pages/About'
 import Education from './pages/Education'
 import Home from './pages/Home'
 import Projects from './pages/Projects'
+import Contact from './pages/Contact'
 
 function App() {
   useLayoutEffect(() => {
@@ -41,6 +42,7 @@ function App() {
       <About />
       <Education />
       <Projects />
+      <Contact/>
     </>
   
   )

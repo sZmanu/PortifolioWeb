@@ -7,9 +7,7 @@ function Education() {
   return (
     
       <section id="education" className=" dark:bg-[var(--color-bg-dark)] bg-[var(--color-bg-ligth)] flex justify-center flex-col">
-       <div data-scroll-reveal>
-        <TrajectorySection/>
-       </div>
+      <TrajectorySection/>
       </section>
       
     

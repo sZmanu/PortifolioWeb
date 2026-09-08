@@ -82,9 +82,9 @@ export default function ProjectsSlider() {
         <section className="min-h-svh flex items-center justify-center flex-col px-2 py-10 sm:px-4">
             <div data-scroll-reveal className="flex w-full flex-col items-center">
             <div className="mb-8 text-center">
-        <h2 className="xl:text-4xl font-black md:text-3xl text-lg text-white">
+        <h2 className="xl:text-4xl font-black md:text-3xl text-lg dark:text-white text-[var(--color-text-dark)] ">
           Meus{" "}
-          <span className="bg-[var(--color-secondary)] ml-2 bg-clip-text text-transparent">
+          <span className="dark:bg-[var(--color-secondary)] text-[var(--color-primary)] ml-2 bg-clip-text">
             projetos
           </span>
         </h2>
@@ -102,16 +102,16 @@ export default function ProjectsSlider() {
 
                 <div className="overflow-hidden flex-1 py-10">
                     <div className="flex transition-transform duration-500 ease-in-out" style={{  transform: `translateX(-${index * cardWidthPercent}%)`,  }}>
-    {projects.map((project) => (
-        <div
-            key={project.title}
-            className="box-border shrink-0 px-1 sm:px-5"
-            style={{ width: `${cardWidthPercent}%` }}
-        >
-            <CardProject project={project} onSelect={setProjetoSelecionado} />
-        </div>
-    ))}
-</div>
+                        {projects.map((project) => (
+                            <div
+                                key={project.title}
+                                className="box-border shrink-0 px-1 sm:px-5"
+                                style={{ width: `${cardWidthPercent}%` }}
+                            >
+                                <CardProject project={project} onSelect={setProjetoSelecionado} />
+                            </div>
+                        ))}
+                    </div>
                 </div>
                 <button
                     onClick={handleNext}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Tab = "educacao" | "experiencia";
 
@@ -53,16 +53,51 @@ const experiencia: TimelineItem[] = [
   },
 ];
 
-function TimelineRow({ item }: { item: TimelineItem }) {
+function TimelineRow({ item, index }: { item: TimelineItem; index: number }) {
+  const rowRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const row = rowRef.current;
+
+    if (!row || !("IntersectionObserver" in window)) {
+      setIsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setIsVisible(true);
+        observer.unobserve(row);
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -5%" },
+    );
+
+    observer.observe(row);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="relative grid grid-cols-1 gap-y-3 pb-10 pl-8 last:pb-0 mb-5 md:grid-cols-[minmax(0,1fr)_10rem_minmax(0,1fr)] md:gap-x-8 md:gap-y-0 md:pb-14 md:pl-0">
+    <div
+      ref={rowRef}
+      style={{
+        transitionDelay: `${index * 150}ms`,
+        transitionProperty: "opacity, transform",
+        transitionDuration: "700ms",
+        transitionTimingFunction: "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+      }}
+      className={`relative grid grid-cols-1 gap-y-3 pb-10 pl-8 last:pb-0 mb-5 md:grid-cols-[minmax(0,1fr)_10rem_minmax(0,1fr)] md:gap-x-8 md:gap-y-0 md:pb-14 md:pl-0 motion-reduce:transition-none ${
+        isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+      }`}
+    >
 
       {/* COLUNA ESQUERDA — título e subtítulo */}
       <div className="order-2 flex min-w-0 flex-col pt-0.5 md:order-none">
-        <h3 className="text-[11px] font-bold leading-snug text-white md:text-[18px] lg:text-[20px]">
+        <h3 className="text-[11px] font-bold leading-snug dark:text-white md:text-[19px] lg:text-[21px] text-[var(--color-text-dark)]">
           {item.title}
         </h3>
-        <p className="mt-1 text-[12px] font-medium text-[var(--color-secondary)] lg:text-[14px]">
+        <p className="mt-1 text-[12px] font-semibold dark:text-[var(--color-secondary)] md:text-[14px] lg:text-[15px] text-[var(--color-tertiary)]">
           {item.subtitle}
         </p>
         {item.link && (
@@ -92,7 +127,7 @@ function TimelineRow({ item }: { item: TimelineItem }) {
       {/* COLUNA CENTRAL — ano + linha vertical + bolinha */}
       <div className="relative order-1 flex items-start gap-3 md:order-none">
         {/* Ano */}
-        <span className="whitespace-nowrap pt-0.5 text-[13px] font-bold text-white">
+        <span className="whitespace-nowrap pt-0.5 text-[13px] font-bold dark:text-white text-[var(--color-text-dark)] md:text-[15px] lg:text-[17px]">
           {item.year}
         </span>
         {/* Bolinha com glow */}
@@ -104,7 +139,7 @@ function TimelineRow({ item }: { item: TimelineItem }) {
 
       {/* COLUNA DIREITA — descrição */}
       <div className="order-3 min-w-0 pt-0.5 md:order-none">
-        <p className="text-[12.5px] leading-relaxed text-white/50">
+        <p className="text-[12.5px] leading-relaxed dark:text-white/50 text-black/60 font-medium md:text-[14px] lg:text-[15px]">
           {item.description}
         </p>
       </div>
@@ -119,12 +154,12 @@ export default function TrajectorySection() {
   const items = activeTab === "educacao" ? educacao : experiencia;
 
   return (
-    <section className="px-8 pb-16">
+    <section className="px-8 pb-16 antialiased">
       {/* Título */}
       <div className="mb-15 text-center">
-        <h2 className="xl:text-4xl font-black md:text-3xl text-xl text-white">
+        <h2 className="xl:text-4xl font-black md:text-3xl text-lg dark:text-white text-[var(--color-text-dark)]">
           Minha{" "}
-          <span className="bg-[var(--color-secondary)] ml-2 bg-clip-text text-transparent">
+          <span className="dark:bg-[var(--color-secondary)] text-[var(--color-primary)] ml-2 bg-clip-text ">
             trajetória
           </span>
         </h2>
@@ -132,7 +167,7 @@ export default function TrajectorySection() {
 
       {/* Tabs */}
       <div className="mb-20 flex justify-center">
-        <div className="flex rounded-xl border border-purple-800/30 bg-white/[0.03] p-1 backdrop-blur-md">
+        <div className="flex rounded-xl border border-purple-800/30 dark:bg-white/[0.03] p-1 bg-[var(--color-text-light)] backdrop-blur-md">
           {(
             [
               { key: "educacao", label: "Educação"},
@@ -144,8 +179,8 @@ export default function TrajectorySection() {
               onClick={() => setActiveTab(tab.key)}
               className={`flex items-center gap-2 rounded-lg px-5 py-2 text-[12px] font-semibold transition-all duration-300 ${
                 activeTab === tab.key
-                  ? "bg-[var(--color-secondary)] text-white shadow-[0_0_20px_rgba(109,40,217,0.5)]"
-                  : "text-white/40 hover:text-white/70"
+                  ? "dark:bg-[var(--color-secondary)] bg-[var(--color-quaternary)] text-white shadow-[0_0_20px_rgba(109,40,217,0.5)]"
+                  : "text-purple-900/60 dark:text-white/30 dark:hover:text-white/70 hover:text-purple-900/90"
               }`}
             >
               {tab.label}
@@ -162,7 +197,7 @@ export default function TrajectorySection() {
         />
         <div className="relative flex flex-col">
           {items.map((item, index) => (
-            <TimelineRow key={`${activeTab}-${index}`} item={item} />
+            <TimelineRow key={`${activeTab}-${index}`} item={item} index={index} />
           ))}
         </div>
       </div>
