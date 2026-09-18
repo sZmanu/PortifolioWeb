@@ -5,7 +5,7 @@
 
   --color-bg-dark: #090311;
 
-  --color-bg-ligth: #f1e5ff;
+  --color-bg-ligth: #f5ecff;
   --color-card: #2c253831;
   --color: #f1e5ff13;
 
@@ -22,7 +22,7 @@
   --color-border: #e5e7eb28;
 }
 .dark {
-  --color-card-glow: #271836;
+  --color-card-glow: #4c24a84f;
 }
 
 h3{

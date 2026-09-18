@@ -31,7 +31,7 @@ function EducationCard({ period, institution, course }: Education) {
   return (
     <div className="w-1/3 overflow-hidden rounded-xl border border-purple-800/30 bg-white/[0.04] p-4 pl-5 backdrop-blur-lg transition-all duration-300 hover:border-purple-400/40 hover:shadow-[0_0_24px_rgba(139,92,246,0.2)]">
       {/* Barra lateral em gradiente */}
-      <div className="absolute left-0 top-0 h-full w-[3px] rounded-l-xl bg-gradient-to-b from-violet-700 via-purple-500 to-fuchsia-500" />
+      <div className="absolute left-0 top-0 h-full w-[3px] rounded-l-xl bg-gradient-to-b from-purple-700 via-purple-500 to-fuchsia-500 dark:from-violet-700 dark:via-purple-500 dark:to-fuchsia-500" />
 
       <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-purple-500">
         {period}

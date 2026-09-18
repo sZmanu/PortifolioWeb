@@ -5,6 +5,7 @@ import About from './pages/About'
 import Education from './pages/Education'
 import Home from './pages/Home'
 import Projects from './pages/Projects'
+import Skills from './pages/Skills'
 import Contact from './pages/Contact'
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
       <Home />
       <About />
       <Education />
+      <Skills/>
       <Projects />
       <Contact/>
     </>

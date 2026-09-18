@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import ButtonCode from "./ButtonCode";
 import type { Project } from "./CardProject";
 
@@ -14,6 +15,17 @@ type MediaItem =
 
 function ModalCard({ isOpen, onClose, project }: ModalCardProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    if (!isOpen || !project) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isOpen, project]);
 
   if (!isOpen || !project) return null;
 
@@ -31,14 +43,15 @@ const mediaItems: MediaItem[] = [
   const next = () =>
     setActiveIndex((i) => (i + 1) % mediaItems.length);
 
-  return (
+  return createPortal(
+    (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 backdrop-blur-sm md:p-4"
       role="presentation"
       onClick={onClose}
     >
       <div
-        className="relative m-10 max-h-[calc(100svh-2rem)] w-full max-w-4xl overflow-y-auto overscroll-contain rounded-2xl bg-white p-6 shadow-2xl dark:bg-[var(--color-bg-dark)]"
+        className="relative m-2 max-h-[calc(100svh-2rem)] w-full max-w-4xl overflow-y-auto overscroll-contain rounded-2xl bg-white p-4 shadow-2xl dark:bg-[var(--color-bg-dark)] md:m-10 md:p-6"
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-project-title"
@@ -66,13 +79,13 @@ const mediaItems: MediaItem[] = [
         {hasMedia && (
           <div className="mb-4">
             {/* Visualizador principal */}
-            <div className="relative flex max-h-[50svh] items-center justify-center overflow-hidden rounded-xl bg-black">
+            <div className="relative flex max-h-[40svh] items-center justify-center overflow-hidden rounded-xl bg-black md:max-h-[50svh]">
               {active.type === "video" ? (
                 <video
                   key={active.src}
                   controls
                   preload="metadata"
-                  className="max-h-[50svh] w-full rounded-xl object-contain"
+                  className="h-auto max-h-[35svh] w-auto max-w-full rounded-xl object-contain md:max-h-[50svh]"
                 >
                   <source src={active.src} type="video/mp4" />
                   Seu navegador não suporta a reprodução de vídeo.
@@ -82,7 +95,7 @@ const mediaItems: MediaItem[] = [
                   key={active.src}
                   src={active.src}
                   alt={`Mídia ${activeIndex + 1}`}
-                  className="max-h-[50svh] w-full rounded-xl object-contain"
+                  className="max-h-[40svh] w-full rounded-xl object-contain md:max-h-[50svh]"
                 />
               )}
 
@@ -125,7 +138,7 @@ const mediaItems: MediaItem[] = [
                     type="button"
                     onClick={() => setActiveIndex(i)}
                     aria-label={`Ver mídia ${i + 1}`}
-                    className={`relative h-16 w-24 flex-shrink-0 overflow-hidden rounded-lg border-2 transition-all duration-200 ${
+                    className={`relative h-10 w-16 flex-shrink-0 overflow-hidden rounded-lg border-2 transition-all duration-200 md:h-16 md:w-24 ${
                       i === activeIndex
                         ? "dark:border-[#A489D1] border-purple-500 opacity-100 shadow-[0_0_10px_rgba(168,85,247,0.5)]"
                         : "border-transparent opacity-50 hover:opacity-80"
@@ -170,6 +183,8 @@ const mediaItems: MediaItem[] = [
         </div>
       </div>
     </div>
+    ),
+    document.body,
   );
 }
 

@@ -34,7 +34,7 @@
   inherits: false;
   initial-value: 0deg;
 }
-@theme {
+@theme { 
   --animate-rotate-border: border-rotate 3s linear infinite;
   @keyframes border-rotate {
     to {

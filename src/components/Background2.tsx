@@ -27,7 +27,7 @@ const StyledWrapper = styled.div`
     width: 100%;
     height: 100%;
     z-index: 0;
-    background: radial-gradient(125% 125% at 50% 10%, #f1e5ff 40%, #4e2b85 100%);
+    background: radial-gradient(125% 125% at 50% 10%, #f5ecff 40%, #b189d1 100%);
     transition: background 300ms ease;
   }
 

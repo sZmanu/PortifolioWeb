@@ -21,7 +21,7 @@ function NavBar() {
     }
 
   return (
-    <nav className="flex justify-between items-center md:px-14 px-4 py-4 relative z-50 bg-[#f1e5ff]  dark:bg-[var(--color-bg-dark)] ">
+    <nav className="fixed z-30 flex w-full items-center justify-between border-b border-purple-900/10 bg-white/10 px-4 py-4 backdrop-blur-md backdrop-saturate-150 transition-colors duration-300 dark:border-white/10 dark:bg-black/10 md:px-14">
 
       <img src="/logoNome.svg" alt="Logo manuella" className="sm:w-60 w-50"/>
       <div className="flex items-center gap-4 justify-center">
@@ -29,7 +29,7 @@ function NavBar() {
         <ul className="hidden md:flex md:gap-5 lg:gap-10 text-white">
           {itensMenu.map((item) => (
             <li key={item.id} className="transition hover:scale-110">
-              <a href={item.link} className="text-lg dark:text-[#DDD3EE] hover:text-[#6f5a92] dark:hover:text-[#A489D1] text-[#371175] font-medium">
+              <a href={item.link} className="text-lg dark:text-[#DDD3EE] hover:text-[#6f5a92] dark:hover:text-[#A489D1] text-[#371175] font-semibold!">
                 {item.nome}
               </a>
             </li>
