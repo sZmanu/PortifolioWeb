@@ -4,6 +4,7 @@ import { getProjectsData } from "../utils/ProjectsData";
 import ModalCard from "../components/ModalCard";
 import Background2 from "../components/Background2";
 import ProjectCarousel from "../components/ProjectCarousel";
+import ButtonTab from "../components/ButtonTab";
 
 function getCardsPerView(): number {
     if (typeof window === "undefined") return 3;
@@ -41,9 +42,11 @@ function useCardsPerView(): number {
 export default function ProjectsSlider() {
     const [projetoSelecionado, setProjetoSelecionado] = useState<Project | null>(null);
     const projects = getProjectsData();
+    const [projectsSelected, setProjectsSelected] = useState<Project[]>(projects);
     const cardsPerView = useCardsPerView();
+    const [activeTab, setActiveTab] = useState<number>(2);
     const [index, setIndex] = useState<number>(0);
-    const maxIndex = Math.max(0, projects.length - cardsPerView);
+    const maxIndex = Math.max(0, projectsSelected.length - cardsPerView);
 
     const handleNext = useCallback(() => {
         setIndex((prev) => Math.min(prev + 1, maxIndex));
@@ -71,6 +74,23 @@ export default function ProjectsSlider() {
     const isAtStart = visibleIndex === 0;
     const isAtEnd = visibleIndex === maxIndex;
 
+    function handleTabClick(tabIndex: number) {
+        setIndex(0);
+        // Lógica para filtrar os projetos com base na aba selecionada
+        if (tabIndex === 0) {
+            setProjectsSelected(projects.filter(project => project.tipo === "web"));
+            setActiveTab(0);
+        }
+        else if (tabIndex === 1) {
+            setProjectsSelected(projects.filter(project => project.tipo === "mobile"));
+            setActiveTab(1);
+        }
+        else {
+            setProjectsSelected(projects);
+            setActiveTab(2);
+        }
+    }
+
     return (
         <Background2>
         <section id="projects" className="min-h-svh flex items-center justify-center flex-col px-2 py-10 sm:px-4">
@@ -83,9 +103,16 @@ export default function ProjectsSlider() {
           </span>
         </h2>
       </div>
+
+        <div className="flex justify-center mb-10 gap-3 mt-10">
+            <ButtonTab title="Todos" onClick={() => handleTabClick(2)} isActive={activeTab === 2} />
+            <ButtonTab title="Web" onClick={() => handleTabClick(0)} isActive={activeTab === 0} />
+            <ButtonTab title="Mobile" onClick={() => handleTabClick(1)} isActive={activeTab === 1} />
+            
+        </div>
             
             <ProjectCarousel
-                projects={projects}
+                projects={projectsSelected}
                 index={visibleIndex}
                 cardWidthPercent={cardWidthPercent}
                 isAtStart={isAtStart}
