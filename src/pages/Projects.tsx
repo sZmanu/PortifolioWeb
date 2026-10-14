@@ -104,10 +104,22 @@ export default function ProjectsSlider() {
         </h2>
       </div>
 
-        <div className="flex justify-center mb-10 gap-3 mt-10">
-            <ButtonTab title="Todos" onClick={() => handleTabClick(2)} isActive={activeTab === 2} />
-            <ButtonTab title="Web" onClick={() => handleTabClick(0)} isActive={activeTab === 0} />
-            <ButtonTab title="Mobile" onClick={() => handleTabClick(1)} isActive={activeTab === 1} />
+        <div className="flex justify-center mb-10 md:gap-3 mt-10">
+            <ButtonTab title="Todos" onClick={() => handleTabClick(2)} isActive={activeTab === 2} > 
+            
+            </ButtonTab>
+            <ButtonTab title="Web" onClick={() => handleTabClick(0)} isActive={activeTab === 0} >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 h-5 w-5 sm:h-6 sm:w-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
+            </svg>
+
+            </ButtonTab>
+            <ButtonTab title="Mobile" onClick={() => handleTabClick(1)} isActive={activeTab === 1} >
+                <svg className="h-5 w-5 sm:h-6 sm:w-6" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+                    <rect x="5" y="2" width="14" height="20" rx="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01" />
+                </svg>
+            </ButtonTab>
             
         </div>
             
