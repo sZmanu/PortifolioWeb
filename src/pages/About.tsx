@@ -1,9 +1,10 @@
+import Reveal from "../components/Reveal";
 export default function About() {
 
 
   return (
     <section
-      id="about"
+      id="about" tabIndex={-1}
       className="relative overflow-hidden py-24 px-4 bg-[#573178] dark:bg-[#1b0c33]"
     >
        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.1)_1px,transparent_1px)] bg-[size:44px_44px]" />
@@ -14,7 +15,7 @@ export default function About() {
         <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-stretch lg:gap-16">
 
           {/* ── FOTO — somente desktop ── */}
-          <div className="relative hidden lg:flex lg:w-[380px] lg:flex-shrink-0 lg:items-center lg:justify-center">
+          <Reveal variant="tilt" className="relative hidden lg:flex lg:w-[380px] lg:flex-shrink-0 lg:items-center lg:justify-center">
 
             {/* Anel decorativo externo */}
             <div className="absolute h-[340px] w-[340px] rounded-full border border-purple-300/50 dark:border-violet-500/20 animate-[spin_18s_linear_infinite]">
@@ -34,10 +35,10 @@ export default function About() {
               </div>
              
               </div>
-          </div>
+          </Reveal>
 
           {/* ── CONTEÚDO ── */}
-          <div className="flex flex-1 flex-col justify-center">
+          <Reveal variant="right" delay={120} className="flex flex-1 flex-col justify-center">
 
             {/* Label */}
             <div className="mb-4 flex items-center gap-3">
@@ -74,7 +75,7 @@ export default function About() {
               </p>
             </div>  
 
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import Reveal from "./Reveal";
+import { useState } from "react";
+import { getExternalUrl } from "../utils/links";
 
 type Tab = "educacao" | "experiencia";
 
@@ -54,44 +56,10 @@ const experiencia: TimelineItem[] = [
 ];
 
 function TimelineRow({ item, index }: { item: TimelineItem; index: number }) {
-  const rowRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const row = rowRef.current;
-
-    if (!row || !("IntersectionObserver" in window)) {
-      setIsVisible(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        setIsVisible(true);
-        observer.unobserve(row);
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -5%" },
-    );
-
-    observer.observe(row);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <div
-      ref={rowRef}
-      style={{
-        transitionDelay: `${index * 150}ms`,
-        transitionProperty: "opacity, transform",
-        transitionDuration: "700ms",
-        transitionTimingFunction: "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-      }}
-      className={`relative grid grid-cols-1 gap-y-3 pb-10 pl-8 last:pb-0 mb-5 md:grid-cols-[minmax(0,1fr)_10rem_minmax(0,1fr)] md:gap-x-8 md:gap-y-0 md:pb-14 md:pl-0 motion-reduce:transition-none ${
-        isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-      }`}
+    <Reveal variant={index % 2 === 0 ? "left" : "right"} delay={index * 100}
+      className="relative grid grid-cols-1 gap-y-3 pb-10 pl-8 last:pb-0 mb-5 md:grid-cols-[minmax(0,1fr)_10rem_minmax(0,1fr)] md:gap-x-8 md:gap-y-0 md:pb-14 md:pl-0"
     >
-
       {/* COLUNA ESQUERDA — título e subtítulo */}
       <div className="order-2 flex min-w-0 flex-col pt-0.5 md:order-none">
         <h3 className="text-[11px] font-bold leading-snug dark:text-white md:text-[19px] lg:text-[21px] text-[var(--color-text-dark)] !font-bold">
@@ -100,7 +68,7 @@ function TimelineRow({ item, index }: { item: TimelineItem; index: number }) {
         <p className="mt-1 text-[12px] font-semibold dark:text-[var(--color-secondary)] md:text-[14px] lg:text-[15px] text-[#9157c7] font-bold">
           {item.subtitle}
         </p>
-        {item.link && (
+        {item.link && getExternalUrl(item.link.href) && (
           <a
             href={item.link.href}
             className="mt-3 inline-flex items-center gap-1.5 rounded-lg border border-purple-700/40 dark:border-violet-700/40 bg-purple-900/20 dark:bg-violet-900/20 px-3 py-1.5 text-[11px] font-semibold text-purple-400 dark:text-violet-400 backdrop-blur-sm transition-all duration-200 hover:border-purple-500/60 dark:hover:border-violet-500/60 hover:bg-purple-800/30 dark:hover:bg-violet-800/30 hover:text-purple-300 dark:hover:text-violet-300"
@@ -144,7 +112,7 @@ function TimelineRow({ item, index }: { item: TimelineItem; index: number }) {
         </p>
       </div>
 
-    </div>
+    </Reveal>
   );
 }
 
@@ -154,19 +122,19 @@ export default function TrajectorySection() {
   const items = activeTab === "educacao" ? educacao : experiencia;
 
   return (
-    <section className="px-8 pb-16 antialiased pt-30">
+    <div className="px-8 pb-16 antialiased pt-30">
       {/* Título */}
-      <div className="mb-15 text-center">
+      <Reveal variant="rise" className="mb-15 text-center">
         <h2 className="text-2xl font-black tracking-tight text-[#9157c7] dark:text-white md:text-3xl lg:text-4xl">
           Minha{" "}
           <span className="bg-gradient-to-r dark:from-violet-300 dark:via-violet-500 dark:to-violet-700 from-[#9157c7] via-[#632ea0] to-[#3f0c7a] bg-clip-text text-transparent">
             trajetória
           </span>
         </h2>
-      </div>
+      </Reveal>
 
       {/* Tabs */}
-      <div className="mb-20 flex justify-center">
+      <div role="group" aria-label="Selecionar trajetória" className="mb-20 flex justify-center">
         <div className="flex rounded-xl border border-purple-800/30  dark:border-violet-400/30 dark:bg-white/[0.03] p-1 bg-[var(--color-text-light)] backdrop-blur-md">
           {(
             [
@@ -176,6 +144,9 @@ export default function TrajectorySection() {
           ).map((tab) => (
             <button
               key={tab.key}
+              type="button"
+              aria-pressed={activeTab === tab.key}
+              aria-controls="trajectory-content"
               onClick={() => setActiveTab(tab.key)}
               className={`flex items-center gap-2 rounded-lg px-5 py-2 text-[12px] font-semibold transition-all duration-300 ${
                 activeTab === tab.key
@@ -190,7 +161,7 @@ export default function TrajectorySection() {
       </div>
 
       {/* Timeline */}
-      <div className="relative mx-auto max-w-5xl">
+      <div id="trajectory-content" role="region" aria-label={activeTab === "educacao" ? "Educação" : "Experiência"} className="relative mx-auto max-w-5xl">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute bottom-1 left-2.5 top-2.5 w-px bg-gradient-to-b dark:from-violet-400/15 dark:via-violet-500/50 dark:to-[#9157c7] from-purple-400/15 via-purple-500/50 to-purple-500/90 md:left-[calc(50%+5rem)]"
@@ -201,6 +172,6 @@ export default function TrajectorySection() {
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 }

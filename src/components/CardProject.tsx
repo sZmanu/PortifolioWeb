@@ -1,5 +1,6 @@
 import type { MouseEvent } from "react";
 import { ArrowRightIcon } from "./icons/ArrowRightIcon";
+import ProjectPreview from "./ProjectPreview";
 
 export interface Project {
   id: number;
@@ -28,15 +29,7 @@ export function CardProject({ project, onSelect }: CardProjectProps) {
     return (
         <article className="group relative h-full overflow-hidden rounded-3xl bg-[#ffffff] shadow-xl transition-all duration-500 ease-out hover:-translate-y-1 hover:scale-[1.03] dark:bg-[var(--color-card)]">
             <div className="absolute left-[10px] top-2 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-purple-100/20 p-2 opacity-70 backdrop-blur-md"><p className="font-bold text-white">{project.id}</p></div>
-            <video
-                src={project.video ?? project.images?.[0]}
-                aria-label={`Vídeo de apresentação do projeto ${project.title}`}
-                className="pointer-events-none h-40 w-full object-cover"
-                autoPlay
-                loop
-                muted
-                playsInline
-            />
+            <ProjectPreview key={`${project.id}-${project.video}-${project.images?.[0]}`} video={project.video} image={project.images?.[0]} title={project.title} />
 
             <div className="relative overflow-hidden px-5 py-2" onMouseMove={updateGlowPosition}>
                 <div
@@ -46,7 +39,7 @@ export function CardProject({ project, onSelect }: CardProjectProps) {
                 />
 
                 <div className="relative">
-                    <h5 className="mb-2 sm:text-lg text-[14px] text-[var(--color-bg-dark)] font-semibold dark:text-[var(--color-bg-ligth)]">{project.title}</h5>
+                    <h3 className="mb-2 sm:text-lg text-[14px] text-[var(--color-bg-dark)] font-semibold dark:text-[var(--color-bg-ligth)]">{project.title}</h3>
                     <p className="card-text line-clamp-3 md:text-[14px] text-[#2E2E2E] dark:text-[#D9D9D9] text-[11px]">
                         {project.description}
                     </p>

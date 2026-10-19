@@ -1,65 +1,72 @@
 /* index.css */
 @import "tailwindcss";
-@import 'tailwind-animations';
 
 /* ✅ Correto para Tailwind v4 com classe dark no <html> */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* A animaÃ§Ã£o Ã© aplicada diretamente nas seÃ§Ãµes, sem criar contÃªineres extras. */
-.scroll-reveal-ready [data-scroll-reveal] {
-  opacity: 0;
-  transform: translateY(86px);
-  transition: opacity 1900ms ease-out, transform 2200ms ease-out;
-  will-change: opacity, transform;
-}
+html { scroll-padding-top: 7rem; }
+section[id], main[id] { scroll-margin-top: 1rem; }
 
-.scroll-reveal-ready [data-scroll-reveal].is-visible {
-  opacity: 1;
-  transform: translateY(0);
+:is(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 3px solid #6d28d9;
+  outline-offset: 4px;
 }
+.dark :is(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline-color: #c4b5fd;
+}
+.love:focus-within { outline-offset: 3px; }
+.dark .love:focus-within { outline-color: #c4b5fd; }
+.love-heart::before { content: ""; position: absolute; inset: -16px; }
+.skip-link {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 200;
+  padding: .75rem 1rem;
+  border-radius: .5rem;
+  background: #fff;
+  color: #300e68;
+  transform: translateY(-200%);
+}
+.skip-link:focus { transform: translateY(0); }
 
 @media (prefers-reduced-motion: reduce) {
-  .scroll-reveal-ready [data-scroll-reveal] {
-    opacity: 1;
-    transform: none;
-    transition: none;
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
   }
-}
-/* index.css ou global.css */
-* {
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-@property --border-angle {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
-@theme { 
-  --animate-rotate-border: border-rotate 3s linear infinite;
-  @keyframes border-rotate {
-    to {
-      --border-angle: 360deg;
-    }
-  }
+  .typing-effect { width: auto !important; white-space: normal; border-right: 0; }
 }
 
+/* Animate the wrapper, keeping hover transforms on its children independent. */
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-14px); }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
 }
+.photo-float { animation: float 4s ease-in-out infinite; }
 
-@keyframes pulseGlow {
-  0%, 100% { opacity: 1; transform: translateX(-50%) scaleX(1); }
-  50%       { opacity: 1;   transform: translateX(-50%) scaleX(1.3); }
+.reveal {
+  opacity: 1;
+  transform: none;
+  transition: opacity 1300ms ease-in-out var(--reveal-delay, 0ms),
+    transform 1600ms cubic-bezier(.22, .61, .36, 1) var(--reveal-delay, 0ms);
 }
-
-@keyframes pulseFrame {
-  0%, 100% { box-shadow: 0 0 30px #7527f3, 0 0 50px #5f2db488, 0 0 90px #a855f733; }
-  50%       { box-shadow: 0 0 35px #7855f7, 0 0 70px #a855f7aa, 0 0 120px #c084fc55; }
+.reveal-pending { opacity: 0; transform: translate3d(0, 30px, 0); }
+.reveal-pending[data-reveal="left"] { transform: translate3d(-36px, 0, 0); }
+.reveal-pending[data-reveal="right"] { transform: translate3d(36px, 0, 0); }
+.reveal-pending[data-reveal="zoom"] { transform: scale(.92); }
+.reveal-pending[data-reveal="tilt"] { transform: translate3d(0, 24px, 0) rotate(-2deg) scale(.97); }
+.reveal:focus-within {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0ms;
 }
-
-
-.photo-float    { animation: float 4s ease-in-out infinite; }
-.photo-frame    { animation: pulseFrame 3s ease-in-out infinite; }
-.photo-glow     { animation: pulseGlow 3s ease-in-out infinite; }
-.sparkle-dot    { animation: sparkle var(--dur) ease-in-out infinite var(--delay); }
+@media (max-width: 639px) {
+  .reveal-pending[data-reveal="left"], .reveal-pending[data-reveal="right"] {
+    transform: translate3d(0, 24px, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; }
+}

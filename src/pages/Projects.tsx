@@ -1,3 +1,4 @@
+import Reveal from "../components/Reveal";
 import { useState, useEffect, useCallback } from "react";
 import { type Project } from "../components/CardProject";
 import { getProjectsData } from "../utils/ProjectsData";
@@ -60,15 +61,6 @@ export default function ProjectsSlider() {
         setProjetoSelecionado(null);
     }, []);
 
-    useEffect(() => {
-        const handleEscape = (event: KeyboardEvent) => {
-            if (event.key === "Escape") handleCloseModal();
-        };
-
-        window.addEventListener("keydown", handleEscape);
-        return () => window.removeEventListener("keydown", handleEscape);
-    }, [handleCloseModal]);
-
     const visibleIndex = Math.min(index, maxIndex);
     const cardWidthPercent = 100 / cardsPerView;
     const isAtStart = visibleIndex === 0;
@@ -93,18 +85,18 @@ export default function ProjectsSlider() {
 
     return (
         <Background2>
-        <section id="projects" className="min-h-svh flex items-center justify-center flex-col px-2 py-10 sm:px-4">
-            <div data-scroll-reveal className="flex w-full flex-col items-center">
-            <div className="mb-8 text-center">
+        <section id="projects" tabIndex={-1} className="min-h-svh flex items-center justify-center flex-col px-2 py-10 sm:px-4">
+            <div className="flex w-full flex-col items-center">
+            <Reveal variant="zoom" className="mb-8 text-center">
         <h2 className="text-2xl font-black tracking-tight text-[#9157c7] dark:text-white md:text-3xl lg:text-4xl">
           Meus{" "}
           <span className="bg-gradient-to-r dark:from-violet-300 dark:via-violet-500 dark:to-violet-700 from-[#9157c7] via-[#632ea0] to-[#3f0c7a] bg-clip-text text-transparent">
             projetos
           </span>
         </h2>
-      </div>
+      </Reveal>
 
-        <div className="flex justify-center mb-10 md:gap-3 mt-10">
+        <div role="group" aria-label="Filtrar projetos" className="flex justify-center mb-10 md:gap-3 mt-10">
             <ButtonTab title="Todos" onClick={() => handleTabClick(2)} isActive={activeTab === 2} > 
             
             </ButtonTab>
@@ -135,11 +127,12 @@ export default function ProjectsSlider() {
             />
 
             </div>
-            <ModalCard
+            {projetoSelecionado && <ModalCard
+                key={projetoSelecionado.id}
                 isOpen={projetoSelecionado !== null}
                 project={projetoSelecionado}
                 onClose={handleCloseModal}
-            />
+            />}
         </section>
         </Background2>
     );

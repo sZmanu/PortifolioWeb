@@ -8,7 +8,7 @@ export function getProjectsData() {
   description: 'Lorem ipsum dolor sit amet...',
   images: ['/imgTeste.jpg', '/imgTeste.jpg','/imgTeste.jpg'], // ← array
   video: '/tecguard.mp4',
-  link: '#',
+  link: 'https://github.com/sZmanu/emprestai-mobile',
   technologies: ['/CSS.svg', '/JavaScript.svg', '/TailwindCSS-Dark.svg'],
   tipo: "web"
 },

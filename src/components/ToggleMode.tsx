@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 interface  ToggleModeProps {
@@ -8,9 +7,9 @@ interface  ToggleModeProps {
 const Switch = ({ toggleHandDark, isDark }: ToggleModeProps) => {
   return (
     <StyledWrapper>
-      <div className="love">
+      <div className="love relative flex h-11 w-11 items-center justify-center rounded-lg">
         <input type="checkbox" id="switch" checked={isDark}        // ← controla o estado visual
-          onChange={toggleHandDark} />
+          className="sr-only" aria-label="Tema escuro" role="switch" onChange={toggleHandDark} />
         <label className="love-heart" htmlFor="switch">
           <i className="left" />
           <i className="right" />
@@ -23,8 +22,10 @@ const Switch = ({ toggleHandDark, isDark }: ToggleModeProps) => {
 }
 
 const StyledWrapper = styled.div`
-  .love-heart:before,#switch {
-   display: none;
+  .love-heart:before {
+   content: "";
+   position: absolute;
+   inset: -16px;
   }
 
   .love-heart, .love-heart::after {
@@ -88,13 +89,11 @@ const StyledWrapper = styled.div`
   .love-heart {
    box-sizing: border-box;
    position: relative;
-   transform: rotate(-45deg) translate(-50%, -33px) scale(1.5);
+   transform: rotate(-45deg) scale(1.5);
    display: block;
    border-color: #181222;
    cursor: pointer;
-   top: 14px; 
-    right: 0px;
-    margin-left: 40px;
+   margin: 0 8px 8px 0;
   }
 
   input:checked + .love-heart, input:checked + .love-heart::after, input:checked + .love-heart .bottom {

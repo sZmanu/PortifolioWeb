@@ -1,3 +1,5 @@
+import { getExternalUrl } from "../utils/links";
+
 interface SocialButton {
   href: string;
   label: string;
@@ -15,7 +17,7 @@ interface SocialButton {
 const ButtonSocial = () => {
   const socials: SocialButton[] = [
     {
-      href: "#",
+      href: "https://www.linkedin.com/in/manuellaalves",
       label: "LinkedIn",
       colorClass: {
         border: "border-purple-800/50 dark:border-indigo-500/30 hover:border-[#7045b1]/70",
@@ -32,7 +34,7 @@ const ButtonSocial = () => {
       ),
     },
     {
-      href: "#",
+      href: "https://github.com/sZmanu",
       label: "GitHub",
     colorClass: {
         border: "border-purple-800/50 dark:border-indigo-500/30 hover:border-[#7045b1]/70",
@@ -72,7 +74,9 @@ const ButtonSocial = () => {
       {socials.map((social) => (
         <a
           key={social.label}
-          href={social.href}
+          href={getExternalUrl(social.href)}
+          aria-disabled={!getExternalUrl(social.href) || undefined}
+          title={getExternalUrl(social.href) ? social.label : `${social.label}: link em breve`}
           aria-label={social.label}
           target="_blank"
           rel="noopener noreferrer"

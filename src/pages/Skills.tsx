@@ -1,16 +1,14 @@
+import Reveal from "../components/Reveal";
 import { ServicesData } from "../utils/ServicesData";
 import getTechnologiesData from "../utils/TechnologiesData";
-import CardService from "../components/CardService";
-import IconTecnologias from "../components/IconTecnologias";
 export default function Skills() {
   return (
     <section
-      id="skills"
-      className="relative overflow-hidden min-h-[90vh] py-20 px-4 bg-[var(--color-bg-light)] dark:bg-[var(--color-bg-dark)] flex flex-col justify-center"
+      id="skills" tabIndex={-1}
+      className="relative overflow-hidden min-h-[90vh] py-20 px-4 bg-[var(--color-bg-ligth)] dark:bg-[var(--color-bg-dark)] flex flex-col justify-center"
     >
 
-      {/* ── Luzes de fundo ── */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
         {/* Halo externo difuso */}
         <div className="absolute bottom-24 -left-24 h-[560px] w-[160px] rounded-full  dark:bg-violet-600/40 blur-[70px] sm:bottom-40 sm:-left-52 sm:h-[500px] sm:w-[500px] sm:blur-[130px]" />
         {/* Núcleo mais brilhante */}
@@ -25,7 +23,7 @@ export default function Skills() {
       <div className="relative  mx-auto max-w-6xl">                         
 
         {/* Título */}
-        <div className="mb-12 text-center">
+        <Reveal variant="rise" className="mb-12 text-center">
          
           <h2 className="text-2xl font-black tracking-tight text-[#9157c7] dark:text-white md:text-3xl lg:text-4xl">
             Minhas{" "}
@@ -33,14 +31,13 @@ export default function Skills() {
               habilidades
             </span>
           </h2>
-        </div>
+        </Reveal>
 
         {/* ── Cards de serviço ── */}
         <div className="mb-16 grid grid-cols-2 justify-items-stretch gap-2 sm:gap-4 lg:grid-cols-4">
           {ServicesData.map((service, i) => (
-            <div
-              key={i}
-              className="group relative w-full max-w-[18rem] overflow-hidden rounded-xl border border-[#7b2bc7]/60 dark:border-violet-800/25 bg-white/5 p-3 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-[#7b2bc7]/80 dark:hover:border-violet-500/45 hover:shadow-[0_0_32px_rgba(139,92,246,0.2)] dark:bg-white/[0.04] sm:max-w-none sm:rounded-2xl sm:p-5"
+            <Reveal key={i} variant={i % 2 === 0 ? "rise" : "tilt"} delay={i * 90}><div
+              className="group relative h-full w-full max-w-[18rem] overflow-hidden rounded-xl border border-[#7b2bc7]/60 dark:border-violet-800/25 bg-white/5 p-3 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-[#7b2bc7]/80 dark:hover:border-violet-500/45 hover:shadow-[0_0_32px_rgba(139,92,246,0.2)] dark:bg-white/[0.04] sm:max-w-none sm:rounded-2xl sm:p-5"
             >
               {/* Gradiente interno no hover */}
               <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-purple-600/10 via-transparent to-fuchsia-600/5 dark:from-violet-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
@@ -49,7 +46,7 @@ export default function Skills() {
               <div className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-purple-300/40 to-transparent dark:via-violet-300/40" />
 
               {/* Ícone */} 
-              <div className="relative z-10 mb-3 inline-flex items-center justify-center rounded-lg border border-[#7b2bc7]/60 dark:border-violet-700/30 bg-[#6e2fa8] dark:bg-violet-900/30 p-2 text-[#ead4ff] dark:text-violet-400 backdrop-blur-sm transition-all duration-300 group-hover:border-[#7b2bc7]/30 dark:group-hover:border-violet-500/50 group-hover:bg-[#7b2bc7]/80 dark:group-hover:bg-violet-800/40 group-hover:text-purple-300 dark:group-hover:text-violet-300 sm:mb-4 sm:rounded-xl sm:p-3">
+              <div className="relative z-10 mb-3 inline-flex items-center justify-center rounded-lg border border-[#7b2bc7]/60 dark:border-violet-700/30 bg-[#6e2fa8] dark:bg-violet-900/30 p-2 text-[#ead4ff] dark:text-violet-400 backdrop-blur-md transition-all duration-300 group-hover:border-[#7b2bc7]/30 dark:group-hover:border-violet-500/50 group-hover:bg-[#7b2bc7]/80 dark:group-hover:bg-violet-800/40 group-hover:text-purple-300 dark:group-hover:text-violet-300 sm:mb-4 sm:rounded-xl sm:p-3">
                 {service.icon}
               </div>
 
@@ -59,7 +56,7 @@ export default function Skills() {
               <p className="relative z-10 text-[11px] md:text-[13px] mt-2 leading-relaxed text-[#555] dark:text-white/45 sm:text-[12px]">
                 {service.description}
               </p>
-            </div>
+            </div></Reveal>
           ))}
         </div>
 
@@ -74,9 +71,8 @@ export default function Skills() {
 
         {/* ── Ícones de tecnologia ── */}
         <div className="flex flex-wrap items-center justify-center sm:gap-6 gap-3 md:gap-8">
-          {getTechnologiesData().map((tech) => (
-            <div
-              key={tech.name}
+          {getTechnologiesData().map((tech, i) => (
+            <Reveal key={tech.name} variant="zoom" delay={(i % 6) * 55}><div
               className="group flex flex-col items-center gap-2"
             >
               {/* Ícone glass */}
@@ -96,7 +92,7 @@ export default function Skills() {
               <span className="text-[10px] font-medium text-[#555] transition-colors duration-200 group-hover:text-[#7b2bc7] dark:group-hover:text-violet-400 dark:text-white/40 md:text-[11px]">
                 {tech.name}
               </span>
-            </div>
+            </div></Reveal>
           ))}
         </div>
 
