@@ -1,1 +1,72 @@
+/* index.css */
 @import "tailwindcss";
+
+/* ✅ Correto para Tailwind v4 com classe dark no <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+html { scroll-padding-top: 7rem; }
+section[id], main[id] { scroll-margin-top: 1rem; }
+
+:is(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 3px solid #6d28d9;
+  outline-offset: 4px;
+}
+.dark :is(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline-color: #c4b5fd;
+}
+.love:focus-within { outline-offset: 3px; }
+.dark .love:focus-within { outline-color: #c4b5fd; }
+.love-heart::before { content: ""; position: absolute; inset: -16px; }
+.skip-link {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 200;
+  padding: .75rem 1rem;
+  border-radius: .5rem;
+  background: #fff;
+  color: #300e68;
+  transform: translateY(-200%);
+}
+.skip-link:focus { transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  .typing-effect { width: auto !important; white-space: normal; border-right: 0; }
+}
+
+/* Animate the wrapper, keeping hover transforms on its children independent. */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+.photo-float { animation: float 4s ease-in-out infinite; }
+
+.reveal {
+  opacity: 1;
+  transform: none;
+  transition: opacity 1300ms ease-in-out var(--reveal-delay, 0ms),
+    transform 1600ms cubic-bezier(.22, .61, .36, 1) var(--reveal-delay, 0ms);
+}
+.reveal-pending { opacity: 0; transform: translate3d(0, 30px, 0); }
+.reveal-pending[data-reveal="left"] { transform: translate3d(-36px, 0, 0); }
+.reveal-pending[data-reveal="right"] { transform: translate3d(36px, 0, 0); }
+.reveal-pending[data-reveal="zoom"] { transform: scale(.92); }
+.reveal-pending[data-reveal="tilt"] { transform: translate3d(0, 24px, 0) rotate(-2deg) scale(.97); }
+.reveal:focus-within {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0ms;
+}
+@media (max-width: 639px) {
+  .reveal-pending[data-reveal="left"], .reveal-pending[data-reveal="right"] {
+    transform: translate3d(0, 24px, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; }
+}

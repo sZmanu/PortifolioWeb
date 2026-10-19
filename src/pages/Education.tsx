@@ -1,0 +1,14 @@
+import TrajectorySection from "../components/TrajectorySection";
+
+function Education() {
+  return (
+    
+      <section id="education" tabIndex={-1} className=" dark:bg-[var(--color-bg-dark)] bg-[var(--color-bg-ligth)] flex justify-center flex-col">
+      <TrajectorySection/>
+      </section>
+      
+    
+  );
+}
+
+export default Education;
